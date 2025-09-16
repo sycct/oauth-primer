@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block body %}
+
+<h1> Welcome {{username}}!! </h1>
+<h2> You made it to the dashboard. That means you logged in successfully.</h2>
+
+<p>
+    Now, where to go from here? The sky is the limit...
+    <ul>
+        <li> <a href="#"> Go back to homepage? </a> </li>
+        <li> <a href="#"> Logout? </a> </li>
+    </ul>
+</p>
+
+{% endblock %}

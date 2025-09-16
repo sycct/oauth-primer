@@ -1,0 +1,16 @@
+{% extends "base.html"%} 
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+
+<p> What would you like to do today: </p>
+<ul>
+    <li> <a href="/auth/register"> Register for new account? <a/></li>
+    <li> <a href="/auth/login"> Login to existing account? </a></li>
+    <li> <a href="/auth/forgot-password"> Forgot Password? </a></li>
+</ul>
+
+<p> *No more services offered here...</p>
+
+{% endblock %}
