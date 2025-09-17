@@ -4,14 +4,24 @@
 
 {% block body %}
 
-<h1> Welcome {{username}}!! </h1>
-<h2> You made it to the dashboard. That means you logged in successfully.</h2>
+{% if current_user.is_authenticated %}
+
+    <h1> Welcome {{user.username}}!! </h1>
+    <h2> You made it to the dashboard. That means you logged in successfully.</h2>
+
+{% elif current_user.is_anonymous %}
+
+    <h1> Ohh no! Seems like you hav not logged in yet.</h1>
+    <p> Try to <a href="/auth/login">login</a> and revisit this page </p>
+
+{% endif %}
+
 
 <p>
     Now, where to go from here? The sky is the limit...
     <ul>
         <li> <a href="#"> Go back to homepage? </a> </li>
-        <li> <a href="#"> Logout? </a> </li>
+        <li> <a href="{{url_for('auth.logout')}}"> Logout? </a> </li>
     </ul>
 </p>
 

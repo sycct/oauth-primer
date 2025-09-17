@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
-{% block title %} Login {% endblock %} 
+{% block title %} Login {% endblock %}
 
 {% block body %}
 
-<form id="login-form" action="{{url_for('auth.login')}}" method="POST" >
+<form id="register-form" action="{{url_for('auth.register')}}" method="POST">
   <fieldset class="form-wrapper">
-    <h1 align="center">Login</h1>
+    <h1 align="center">Register</h1>
 
     <div class="form-group">
       <label for="text"> Username </label>
@@ -16,6 +16,19 @@
         name="username"
         class="form-control"
         placeholder="Enter username"
+        autofocus
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email"> Email Address </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        placeholder="Enter Email"
         autofocus
         required
       />
@@ -39,13 +52,13 @@
     </div>
 
     <div>
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-primary">Register</button>
     </div>
 
     <div class="signup-link">
       <p>
-        Don't have an account?
-        <a href="{{url_for('auth.register')}}"> Register </a> now
+        Already have an account
+        <a href="{{url_for('auth.login')}}"> Login </a> instead
       </p>
     </div>
   </fieldset>
