@@ -3,10 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_manager
 import os
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 db = SQLAlchemy()
 db_name = "oauth.db"
+# disable werkzeugs auto logging. Too cluttered
+logger = logging.getLogger(__name__)
 
 
 def create_app():
@@ -42,6 +45,17 @@ def create_app():
     login_manager.login_view = "auth.login"
     login_manager.login_message = "Oh no! You need to be logged in to access this page"
     login_manager.login_message_category = "warning"
+
+    # implement logging
+    # levels = debug(10),info(20),warning(30),error(40),critical(50)
+    # disable werkzeug logging. Too much
+    logging.getLogger("werkzeug").disabled = True
+    logging.basicConfig(
+        filename="oauth.log",
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(module)s >>> %(message)s",
+        datefmt="%B %d, %Y %H:%M:%S %Z",
+    )
 
     @login_manager.user_loader
     def load_user(user_id):

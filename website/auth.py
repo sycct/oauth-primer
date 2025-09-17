@@ -3,6 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
+from . import logger
 
 auth = Blueprint("auth", __name__)
 
@@ -20,12 +21,22 @@ def register():
 
         if user:
             message = "User already exists! Try again?"
+            log_message = f"Failed creation of a new account with username: {username} and email: {email}, which are already in use by user of id: {user.id}"
+            logger.warning(log_message)
+            flash(message, category="danger")
         else:
             new_user = User(
                 username=username,
                 email=email,
                 password=generate_password_hash(password),
             )
+            message = (
+                f"Congratulations {username}! You have successfully created an account."
+            )
+            log_message = f"{username} successfully created new user account of id:{new_user.id}"
+            logger.info(log_message)
+            flash(message, category="success")
+
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
@@ -47,14 +58,20 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 message = f"Congratulations {username}! You have successfully logged in to your account."
+                log_message = f"{username} successfully logged into their account"
+                logger.info(log_message)
+                flash(message, category="success")
                 login_user(user)
-                print(user)
                 return redirect(url_for("views.dashboard", user=current_user))
             else:
                 message = "Oops! Looks like the passwords do no match. Try again?"
+                log_message = f"{username} registered a failed login attempt due to incorrect password"
+                logger.warning(log_message)
+                flash(message, category="warning")
         else:
-            message = "There is no user account with the above details. Try again?"
-            return redirect("register.html")
+            message = "There is no user account with the above details. Register for a new account instead? "
+            flash(message, category="warning")
+            return redirect(url_for("auth.register"))
     return render_template("login.html")
 
 
@@ -62,5 +79,7 @@ def login():
 @auth.route("/logout")
 @login_required
 def logout():
+    log_message = f"{current_user.username} has logged out of their account"
+    logger.info(log_message)
     logout_user()
     return redirect(url_for("auth.login"))

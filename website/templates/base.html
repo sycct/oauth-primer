@@ -25,19 +25,31 @@
 
       {% if current_user.is_authenticated %}
 
-        <button class="btn btn-outline-secondary" type="submit">Logout</button>
+        <button class="btn btn-secondary " type="submit">
+            <a href="{{url_for('auth.logout')}}" class="text-white text-decoration-none"> Logout </a>
+        </button>
     {% elif not current_user.is_authenticated %}
 
-        <button class="btn btn-outline-primary mx-1" type="submit">
-            <a href="url_for('auth.register')" class="text-decoration-none hover-link"> Register </a>
-        </button>
-        <button class="btn btn-outline-primary mx-1" type="submit">
-            <a href="url_for('auth.login')" class="text-decoration-none hover-link"> Login </a>
+        <button class="btn btn-secondary mx-1" type="submit">
+            <a href="url_for('auth.login')" class="text-white text-decoration-none"> Login </a>
         </button>
       {% endif %}
     </div>
   </div>
 </nav>
+
+<!--start message flashing-->
+{% with messages= get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+   			<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+      			{{ message }}
+      		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    		</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<!--end message flashing-->
 
     <div class="container">
             {% block body%} {% endblock%}

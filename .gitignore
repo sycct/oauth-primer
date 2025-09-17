@@ -2,3 +2,6 @@
 .env
 *.pyc
 */**/*.pyc
+
+# log files
+*.log
