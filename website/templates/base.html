@@ -31,7 +31,7 @@
     {% elif not current_user.is_authenticated %}
 
         <button class="btn btn-secondary mx-1" type="submit">
-            <a href="url_for('auth.login')" class="text-white text-decoration-none"> Login </a>
+            <a href="{{ url_for('auth.login') }}" class="text-white text-decoration-none"> Login </a>
         </button>
       {% endif %}
     </div>
